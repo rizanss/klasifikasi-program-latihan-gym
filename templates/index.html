@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Program Latihan Gym</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+        background: linear-gradient(to bottom right, #0f0f0f, #1a1a2e);
+        color: #e0e0e0;
+      }
+      .card {
+        background-color: #121212;
+        border: none;
+        border-radius: 1rem;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+        padding: 2rem;
+      }
+      label,
+      .form-label,
+      input {
+        color: #ccc;
+      }
+      .form-control {
+        background-color: #1e1e1e;
+        border: 1px solid #444;
+        color: #fff;
+      }
+      .form-control::placeholder {
+        /* Chrome, Firefox, Opera, Safari 10.1+ */
+        color: #868e96; /* Warna abu-abu netral, bisa disesuaikan */
+        opacity: 1; /* Firefox butuh ini kadang */
+      }
+      .form-control:-ms-input-placeholder {
+        /* Internet Explorer 10-11 */
+        color: #868e96;
+      }
+      .form-control::-ms-input-placeholder {
+        /* Microsoft Edge */
+        color: #868e96;
+      }
+      .form-select {
+        background-color: #1e1e1e;
+        border: 1px solid #444;
+        color: #e0e0e0; /* Sebelumnya #fff, disamakan dengan color di body biar konsisten */
+        padding: 0.75rem 2.25rem 0.75rem 1rem; /* Padding sudah oke */
+        border-radius: 0.5rem;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23cccccc' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        background-position: right 0.75rem center;
+        background-size: 16px 12px;
+        /* Ubah durasi dan easing function transisi */
+        transition: border-color 0.25s ease-out, box-shadow 0.25s ease-out,
+          background-color 0.25s ease-out;
+      }
+      .form-select:hover {
+        border-color: #00bcd4;
+        background-color: #2a2a2a;
+      }
+      .form-select:focus {
+        background-color: #1e1e1e; /* Tetap sama */
+        color: #fff; /* Teks lebih terang saat fokus */
+        border-color: #00bcd4;
+        box-shadow: 0 0 0 0.25rem rgba(0, 188, 212, 0.35); /* Sedikit tingkatkan alpha shadow */
+        /* Mengubah panah saat focus (menjadi warna tema & sedikit terbalik) */
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%2300bcd4' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 11l6-6 6 6'/%3e%3c/svg%3e");
+      }
+      .form-select option {
+        background-color: #1e1e1e; /* Warna background option saat dropdown terbuka */
+        color: #e0e0e0;
+      }
+      .form-select option:hover {
+        background-color: #00bcd4;
+        color: #121212;
+      }
+      .btn-primary {
+        background-color: #00bcd4; /* Warna dasar tetap */
+        border: none;
+        color: #1a202c; /* Warna teks lebih gelap agar kontras dengan background cyan */
+        padding: 0.8rem 1.5rem; /* Padding sedikit lebih besar biar tombolnya lebih 'chunky' */
+        font-weight: 600; /* Menggunakan weight 600 dari font Inter */
+        border-radius: 0.5rem; /* Samakan dengan border-radius elemen lain jika perlu */
+        text-transform: uppercase; /* Opsional: bikin teks jadi kapital semua, khas tombol aksi */
+        letter-spacing: 0.5px; /* Opsional: spasi antar huruf sedikit lebih lebar */
+
+        /* Transisi untuk semua perubahan biar smooth */
+        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* Easing function yang lebih menarik */
+
+        /* Bayangan awal yang halus */
+        box-shadow: 0px 4px 12px rgba(0, 188, 212, 0.25);
+
+        /* Mencegah teks jadi blur pas ada transform scale di beberapa browser */
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      .btn-primary:hover {
+        background-color: #00c8e0; /* Warna sedikit lebih cerah pas hover */
+        color: #000000; /* Warna teks paling gelap untuk kontras maksimal */
+
+        /* Efek terangkat dan sedikit membesar */
+        transform: translateY(-4px) scale(1.03);
+
+        /* Bayangan lebih menonjol pas hover */
+        box-shadow: 0px 10px 20px rgba(0, 188, 212, 0.4);
+      }
+      .btn-primary:active {
+        background-color: #00a5b8; /* Warna lebih gelap pas tombol ditekan */
+
+        /* Efek ditekan */
+        transform: translateY(-1px) scale(0.99);
+        box-shadow: 0px 5px 15px rgba(0, 188, 212, 0.3);
+      }
+      .spinner-border {
+        display: none;
+      }
+      .loading-dots .dot {
+        display: inline-block;
+        width: 12px;  /* Ukuran titik */
+        height: 12px; /* Ukuran titik */
+        background-color: #00bcd4; /* Warna titik, sesuaikan dengan text-primary kamu */
+        border-radius: 50%;
+        margin: 0 5px; /* Jarak antar titik */
+        
+        /* Animasi */
+        animation: dotPulse 1.4s infinite ease-in-out both;
+      }
+      /* Efek delay untuk tiap titik biar geraknya bergantian */
+      .loading-dots .dot:nth-child(1) {
+        animation-delay: -0.32s;
+      }
+      .loading-dots .dot:nth-child(2) {
+        animation-delay: -0.16s;
+      }
+      .loading-dots .dot:nth-child(3) {
+        /* animation-delay: 0s; /* Tidak perlu delay untuk yang terakhir */
+      }
+      /* Animasi Keyframes untuk dotPulse */
+      @keyframes dotPulse {
+        0%, 80%, 100% {
+          transform: scale(0.6); /* Titik mengecil */
+          opacity: 0.7;
+        }
+        40% {
+          transform: scale(1.0); /* Titik membesar ke ukuran normal */
+          opacity: 1;
+        }
+      }
+      .loading-text {
+        font-size: 0.9rem;
+        /* color: #00bcd4; /* Sudah diatur inline */
+        /* font-weight: 500; /* Sudah diatur inline */
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      class="container d-flex align-items-center justify-content-center min-vh-100"
+    >
+      <div class="card p-4 w-100" style="max-width: 500px">
+        <h2
+          class="text-center mb-4 fw-bold"
+          style="color: #82b1ff; text-shadow: 0 0 10px rgba(130, 177, 255, 0.4)"
+        >
+          Klasifikasi Program Latihan Gym
+        </h2>
+        <form method="POST">
+          <div class="mb-3">
+            <label class="form-label">Profesi</label>
+            <select name="profesi" class="form-select" required>
+              <option value="sekolah">Sekolah</option>
+              <option value="mahasiswa">Mahasiswa</option>
+              <option value="Karyawan">Karyawan</option>
+              <option value="ibu rumah tangga">Ibu Rumah Tangga</option>
+              <option value="pns">PNS</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Tingkat Kesibukan</label>
+            <select name="kesibukan" class="form-select" required>
+              <option value="rendah">Rendah</option>
+              <option value="sedang">Sedang</option>
+              <option value="tinggi">Tinggi</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Frekuensi Latihan Per Minggu (Hari)</label>
+            <input
+              type="number"
+              name="frekuensi"
+              class="form-control"
+              min="1"
+              max="7"
+              required
+              placeholder="Min: 1 Hari, Max: 7 Hari"
+            />
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Durasi Latihan (menit)</label>
+            <input
+              type="number"
+              name="durasi"
+              class="form-control"
+              min="30"
+              max="120"
+              required
+              placeholder="Min: 30 Menit, Max: 120 Menit"
+            />
+          </div>
+          <div class="text-center">
+            <button type="submit" class="btn btn-primary w-100">
+              Lihat Program Latihan
+            </button>
+          </div>
+          <div class="loading-dots-container text-center mt-3" id="loadingSpinner" style="display: none;">
+            <div class="loading-dots">
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+            </div>
+            <p class="loading-text mt-2" style="color: #00bcd4; font-weight: 500;">Mencari program terbaik...</p>
+          </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <script>
+      const form = document.querySelector("form");
+      const spinner = document.getElementById("loadingSpinner");
+
+      form.addEventListener("submit", function () {
+        spinner.style.display = "block";
+      });
+    </script>
+  </body>
+</html>
